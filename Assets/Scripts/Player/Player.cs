@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,11 +23,12 @@ public class Player : MonoBehaviour, IBuffUser
     private bool isLeavingGround = false;   
     private List<IBuff> buffs = new List<IBuff>();  // 保存所有的Buff
     private List<IBuff> waitToRemove = new List<IBuff>();
-
+    private float gravityScale = 1.0f;
 
     // IFactor factors
     public float  MoveDirectionFactor { get; set; } = 1.0f;
     public float GravityScaleFactor { get; set; } = 1.0f;
+    public float MoveSpeedFactor { get; set; } = 1.0f;
     public float JumpForceFactor { get; set; } = 1.0f;
     public bool CanMoveFlag { get; set; } = true;
     public void RemoveBuff(IBuff buff) {
@@ -39,6 +41,12 @@ public class Player : MonoBehaviour, IBuffUser
         buff.Apply(this);
     }
 
+    public void GravityScaleHook() {
+        UpdateGravityScale();
+    }
+    public void UpdateGravityScale() {
+        rb.gravityScale = gravityScale * GravityScaleFactor;
+    }
 
     private void Awake() {
         controls = new PlayerControls();
@@ -46,11 +54,13 @@ public class Player : MonoBehaviour, IBuffUser
         controls.Enable();
         controls.Player.Jump.performed += ctx => OnJump();
 
-        rb = GetComponent<Rigidbody2D>();    
+        rb = GetComponent<Rigidbody2D>();
+        gravityScale = rb.gravityScale;
     }
     private void Start() {
-        ApplyBuff(new DirectionReverseBuff(5));
-        ApplyBuff(new ImmobilityBuff(2));
+        //ApplyBuff(new DirectionReverseBuff(5));
+        //ApplyBuff(new ImmobilityBuff(2));
+        //ApplyBuff(new GravityChangeBuff(2));
     }
     private void Update() {
         PlayerInput(); 
@@ -67,7 +77,7 @@ public class Player : MonoBehaviour, IBuffUser
     private void PlayerInput() {
         movement = controls.Player.Move.ReadValue<Vector2>();
         jumpCount = IsGrounded() ? 0 : jumpCount;
-        rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, maxDropSpeed, Mathf.Infinity)); 
+        rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, maxDropSpeed * GravityScaleFactor, Mathf.Infinity)); 
     }
     public void OnJump() {
         Debug.Log("Jump");
@@ -100,6 +110,7 @@ public class Player : MonoBehaviour, IBuffUser
         newVelocity.y = rb.velocity.y;  // 保持原来的垂直速度，以便受到重力的影响
 
         // Caused by buff
+        newVelocity.x *= MoveSpeedFactor;
         newVelocity.x *= MoveDirectionFactor;
         newVelocity *= CanMoveFlag ? 1 : 0;
         

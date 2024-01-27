@@ -1,11 +1,19 @@
+using System;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public interface IBuffUser {
-	public float MoveDirectionFactor { get; set; }
-	public float GravityScaleFactor { get; set; }
-	public float JumpForceFactor { get; set; }
-	public bool CanMoveFlag { get; set; }
 
-	public void RemoveBuff(IBuff buff);
-	public void ApplyBuff(IBuff buff);	
+	float MoveDirectionFactor { get; set; }
+	float GravityScaleFactor { get; set; }
+	float JumpForceFactor { get; set; }
+	float MoveSpeedFactor { get; set; }
+	bool CanMoveFlag { get; set; }
+	
+
+	void RemoveBuff(IBuff buff);
+	void ApplyBuff(IBuff buff);
+
+	// 重力因子发生变化，调用此函数
+	void GravityScaleHook();
 }

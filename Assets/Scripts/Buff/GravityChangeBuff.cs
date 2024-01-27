@@ -1,0 +1,34 @@
+using UnityEngine;
+
+public class GravityChangeBuff : IBuff {
+    private float duration = 5f;
+    private float targetFactor;
+    public float Duration {
+        get { return duration; }
+        set { duration = value; }
+    }  // buff的持续时间
+
+    private float timer = 0f;  // buff的计时器
+
+    public void Apply(IBuffUser obj) {
+        obj.GravityScaleFactor = targetFactor;
+        obj.GravityScaleHook(); 
+    }
+
+    public void Remove(IBuffUser obj) {
+        obj.GravityScaleFactor = 1f;
+        obj.GravityScaleHook();
+        obj.RemoveBuff(this);
+    }
+
+    public void Update(IBuffUser obj) {
+        timer += Time.deltaTime;
+        if (timer >= duration) {
+            Remove(obj);
+        }
+    }
+
+    public GravityChangeBuff(float targetFactor) {
+        this.targetFactor = targetFactor;
+    }
+}
