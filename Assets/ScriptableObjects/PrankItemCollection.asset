@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fcd26cbf88c068428110ac4baa24236, type: 3}
+  m_Name: PrankItemCollection
+  m_EditorClassIdentifier: 
+  props:
+  - {fileID: 11400000, guid: a2a171f169a859f45b68a06c239f9d7c, type: 2}
+  - {fileID: 11400000, guid: 47186776fba55284e9ccc367008c79d6, type: 2}
+  - {fileID: 11400000, guid: 16f68177aecaf4141978c7043af0486d, type: 2}
+  - {fileID: 11400000, guid: 34240d852f96bb0439d1852be0feb4f4, type: 2}
+  - {fileID: 11400000, guid: 11407d3e28a7b554c91488a69ae99960, type: 2}

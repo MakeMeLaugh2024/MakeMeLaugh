@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1e30393a5a5ed643b64d3a175b11459, type: 3}
-  m_Name: Apple
+  m_Script: {fileID: 11500000, guid: 89ba93bcd57894e419579d5126043236, type: 3}
+  m_Name: feather
   m_EditorClassIdentifier: 
-  id: 3
-  itemName: "\u86CB\u7CD5"
-  score: 3
-  itemSprite: {fileID: 0}
+  id: 1
+  prankItemName: feather
+  itemSprite: {fileID: 1876629732, guid: 8b29d2d96759a224c80058cb6b0cf6c5, type: 3}
   lifeTime: 5

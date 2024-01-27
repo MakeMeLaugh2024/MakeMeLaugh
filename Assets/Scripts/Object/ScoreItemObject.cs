@@ -7,7 +7,9 @@ public class ScoreItemObject : MonoBehaviour
     //子弹类型和使用的数据
     public ScoreItemSO info;
     public Transform HandledScore1; // 玩家1手部的位置，需要在编辑器中指定
-    public Transform HandledScore2; // 玩家1手部的位置，需要在编辑器中指定
+    public Transform HandledScore2; // 玩家2手部的位置，需要在编辑器中指定
+    public Transform HandledZhenggu1; // 玩家1手部的位置，需要在编辑器中指定
+    public Transform HandledZhenggu2; // 玩家2手部的位置，需要在编辑器中指定
 
 
     //public void InitInfo(ScoreItemSO info)
@@ -32,15 +34,16 @@ public class ScoreItemObject : MonoBehaviour
         if (other.gameObject.CompareTag("Player1"))
         {
             // 检查玩家1是否已经持有道具
-            if (HandledScore1.childCount == 0) // 如果没有子对象，则可以捡起新道具
+            if (HandledZhenggu1.childCount == 0 && HandledScore1.childCount == 0) // 如果没有子对象，则可以捡起新道具
             {
                 PickUpItem(HandledScore1);
             }
         }
+
         else if (other.gameObject.CompareTag("Player2"))
         {
             // 检查玩家2是否已经持有道具
-            if (HandledScore2.childCount == 0) // 如果没有子对象，则可以捡起新道具
+            if (HandledZhenggu2.childCount == 0 && HandledScore2.childCount == 0) // 如果没有子对象，则可以捡起新道具
             {
                 PickUpItem(HandledScore2);
             }

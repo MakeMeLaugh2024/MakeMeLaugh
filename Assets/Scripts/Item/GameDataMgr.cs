@@ -16,6 +16,10 @@ public class GameDataMgr
 
     public int Score2 = 0;
 
+    private GameDataMgr()
+    {
+
+    }
     public void ChangeScore1(int score)
     {
         Score1 += score;
