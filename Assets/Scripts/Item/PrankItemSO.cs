@@ -8,7 +8,9 @@ public class PrankItemSO : ScriptableObject
     //如果是整蛊类道具，用于分辨的id
     public int id;
     //道具的名字
-    public string propName;
+    public string prankItemName;
     //道具使用的图片
     public Sprite itemSprite;
+    //生成后多久消失
+    public float lifeTime;
 }
