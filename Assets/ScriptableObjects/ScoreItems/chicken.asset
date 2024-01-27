@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1e30393a5a5ed643b64d3a175b11459, type: 3}
-  m_Name: Apple
+  m_Name: chicken
   m_EditorClassIdentifier: 
-  id: 3
-  itemName: "\u86CB\u7CD5"
-  score: 3
-  itemSprite: {fileID: 0}
-  lifeTime: 5
+  id: 1
+  itemName: chicken
+  score: 2
+  itemSprite: {fileID: 445488117, guid: aed120463a1d7ed4586c02fd3e9df7fd, type: 3}
+  lifeTime: 4

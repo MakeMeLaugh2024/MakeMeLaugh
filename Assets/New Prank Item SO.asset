@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: New Prank Item SO
   m_EditorClassIdentifier: 
   id: 0
-  prankItemName: 
-  itemSprite: {fileID: 0}
+  prankItemName: "\u6BD2\u836F"
+  itemSprite: {fileID: 21300000, guid: 2c85a27b61652c345ac99fda26b6aaa0, type: 3}
   lifeTime: 0
