@@ -5,17 +5,17 @@ using UnityEngine;
 public class ScoreItemObject : MonoBehaviour
 {
     //子弹类型和使用的数据
-    private ScoreItemSO info;
+    public ScoreItemSO info;
     public Transform HandledScore1; // 玩家1手部的位置，需要在编辑器中指定
     public Transform HandledScore2; // 玩家1手部的位置，需要在编辑器中指定
 
 
-    public void InitInfo(ScoreItemSO info)
-    {
-        this.info = info;
+    //public void InitInfo(ScoreItemSO info)
+    //{
+    //    this.info = info;
 
-        Invoke("DelayDestroy", info.lifeTime);
-    }
+    //    Invoke("DelayDestroy", info.lifeTime);
+    //}
 
     private void DelayDestroy()
     {
