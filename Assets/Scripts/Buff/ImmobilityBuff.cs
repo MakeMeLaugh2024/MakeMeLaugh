@@ -25,10 +25,11 @@ public class ImmobilityBuff : IBuff {
         }
     }
 
-    public ImmobilityBuff(float duration) {
-        this.duration = duration;
+    public void ResetTimer() {
+        timer = 0f;
     }
-    public ImmobilityBuff() {
-        this.duration = 5f;
+
+    public ImmobilityBuff(float duration=5f) {
+        this.duration = duration;
     }
 }

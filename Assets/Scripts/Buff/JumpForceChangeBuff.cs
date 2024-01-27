@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class DirectionReverseBuff : IBuff {
+public class JumpForceChangeBuff : IBuff {
     private float duration = 5f;
+    private float targetFactor;
     public float Duration {
         get { return duration; }
         set { duration = value; }
@@ -9,17 +10,16 @@ public class DirectionReverseBuff : IBuff {
 
     private float timer = 0f;  // buffµÄ¼ÆÊ±Æ÷
 
-
     public void Apply(IBuffUser obj) {
-        obj.MoveDirectionFactor = -1f;
+        obj.JumpForceFactor = targetFactor;
     }
 
     public void Remove(IBuffUser obj) {
-        obj.MoveDirectionFactor = 1f;
+        obj.JumpForceFactor = 1f;
         obj.RemoveBuff(this);
     }
 
-    public void Update(IBuffUser obj){
+    public void Update(IBuffUser obj) {
         timer += Time.deltaTime;
         if (timer >= duration) {
             Remove(obj);
@@ -30,7 +30,7 @@ public class DirectionReverseBuff : IBuff {
         timer = 0f;
     }
 
-    public DirectionReverseBuff(float duration = 5f) {
-        this.duration = duration;
+    public JumpForceChangeBuff(float targetFactor, float duration = 5f) {
+        this.targetFactor = targetFactor;
     }
 }

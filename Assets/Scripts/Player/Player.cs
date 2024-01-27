@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,23 +25,45 @@ public class Player : MonoBehaviour, IBuffUser
     private bool isLeavingGround = false;   
     private List<IBuff> buffs = new List<IBuff>();  // 保存所有的Buff
     private List<IBuff> waitToRemove = new List<IBuff>();
-
+    private float gravityScale = 1.0f;
+    private bool isFacingRight = true;
 
     // IFactor factors
     public float  MoveDirectionFactor { get; set; } = 1.0f;
     public float GravityScaleFactor { get; set; } = 1.0f;
+    public float MoveSpeedFactor { get; set; } = 1.0f;
     public float JumpForceFactor { get; set; } = 1.0f;
     public bool CanMoveFlag { get; set; } = true;
+    public bool IsSlippery { get; set; }
+
     public void RemoveBuff(IBuff buff) {
-        if (!waitToRemove.Contains(buff))
+        // 是否已经在等待移除的队列中，并且是否在buffs中
+        if (!waitToRemove.Contains(buff) && buffs.Contains(buff))
             waitToRemove.Add(buff);
     }
-
     public void ApplyBuff(IBuff buff) {
+        // 检查是否已经有相同类型的Buff，如果有，就移除掉
+        IBuff _buff = null;
+        foreach(var b in buffs) {
+            if (b.GetType() == buff.GetType()) {
+                _buff = b;
+                break;
+            }
+        }
+        if (_buff != null) {
+            buffs.Remove(_buff);
+        }
+
         buffs.Add(buff);
         buff.Apply(this);
     }
 
+    public void GravityScaleHook() {
+        UpdateGravityScale();
+    }
+    public void UpdateGravityScale() {
+        rb.gravityScale = gravityScale * GravityScaleFactor;
+    }
 
     private void Awake() {
         controls = new PlayerControls();
@@ -46,31 +71,48 @@ public class Player : MonoBehaviour, IBuffUser
         controls.Enable();
         controls.Player.Jump.performed += ctx => OnJump();
 
-        rb = GetComponent<Rigidbody2D>();    
+        rb = GetComponent<Rigidbody2D>();
+        gravityScale = rb.gravityScale;
     }
     private void Start() {
-        ApplyBuff(new DirectionReverseBuff(5));
-        ApplyBuff(new ImmobilityBuff(2));
+        //ApplyBuff(new DirectionReverseBuff(5));
+        //ApplyBuff(new ImmobilityBuff(2));
+        //ApplyBuff(new GravityChangeBuff(2));
+
+#if UNITY_EDITOR
+        controls.Player.BuffTest.performed += ctx => BuffTest((int)ctx.ReadValue<float>());
+#endif
     }
     private void Update() {
         PlayerInput(); 
-        Move();   
+        Move();
+        CheckGrounded();
+
+        if (IsSlippery) {
+            int direction = isFacingRight ? 1 : -1; 
+            rb.velocity = new Vector2(direction * moveSpeed, rb.velocity.y);
+        }
 
         foreach (var buff in buffs) {
             buff.Update(this);
         }
         foreach (var buff in waitToRemove) {
             buffs.Remove(buff);
+            Debug.Log("Buff移除: " + buff.GetType().Name);
         }
         waitToRemove.Clear();
     }
     private void PlayerInput() {
         movement = controls.Player.Move.ReadValue<Vector2>();
-        jumpCount = IsGrounded() ? 0 : jumpCount;
-        rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, maxDropSpeed, Mathf.Infinity)); 
+    }
+    private void CheckGrounded() {
+        if (IsGrounded()) {
+            jumpCount = 0;
+            if (!isLeavingGround)
+                rb.velocity = new Vector2(rb.velocity.x, 0);
+        }
     }
     public void OnJump() {
-        Debug.Log("Jump");
         jumpCount++;
 
         // 本次是第jumpCount次跳跃，如果大于最大跳跃次数，就不再跳跃
@@ -95,15 +137,23 @@ public class Player : MonoBehaviour, IBuffUser
         isLeavingGround = false; 
     }
 
+
     public void Move() {
+        if (IsSlippery) {
+            return;
+        }
+
         Vector2 newVelocity = movement * moveSpeed;
         newVelocity.y = rb.velocity.y;  // 保持原来的垂直速度，以便受到重力的影响
 
         // Caused by buff
+        newVelocity.x *= MoveSpeedFactor;
         newVelocity.x *= MoveDirectionFactor;
         newVelocity *= CanMoveFlag ? 1 : 0;
         
         rb.velocity = newVelocity;
+
+        rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, maxDropSpeed * GravityScaleFactor, Mathf.Infinity)); 
     }
 
     public bool IsGrounded() {
@@ -117,6 +167,32 @@ public class Player : MonoBehaviour, IBuffUser
 
         return isGrounded;
     }
+    
+    void BuffTest(int index) {
+        switch (index) {
+            case 1:
+                ApplyBuff(new DirectionReverseBuff(5));
+                Debug.Log("方向反转");
+                break;
+            case 2:
+                ApplyBuff(new GravityChangeBuff(0.5f, 5f));
+                Debug.Log("重力变化");
+                break;
+            case 3:
+                ApplyBuff(new ImmobilityBuff(2));
+                Debug.Log("禁止移动");
+                break;
+            case 4:
+                ApplyBuff(new SlipperyBuff(2));
+                Debug.Log("强制滑行");
+                break;
+            case 5:
+                ApplyBuff(new JumpForceChangeBuff(2, 6));
+                Debug.Log("跳跃力变化");
+                break;
+        } 
+    }
+
 
 #if UNITY_EDITOR
     void OnDrawGizmos() {
@@ -128,5 +204,7 @@ public class Player : MonoBehaviour, IBuffUser
         // 绘制一个矩形
         Gizmos.DrawWireCube(checkPosition, checkSize);
     }
+
+
 #endif
 }
