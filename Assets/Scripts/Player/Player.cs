@@ -1,14 +1,15 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))] 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IBuffUser
 {
     [ControlScheme("LeftKeyboard", "RightKeyboard")]
     [SerializeField] string controlScheme;
     [SerializeField] float moveSpeed = 5.0f;
-    [SerializeField] float jumpForce = 10.0f;
+    [SerializeField] float jumpForce = 18.0f;
     [SerializeField] Vector2 checkSize = new Vector2(0.5f, 0.2f);  // 检测的大小，你可以根据需要调整
     [SerializeField] Vector2 checkPositionOffset = Vector2.down * 0.5f;  // 检测的位置偏移，你可以根据需要调整
     [SerializeField] float maxDropSpeed = -10.0f;  // 最大下落速度，你可以根据需要调整
@@ -19,6 +20,25 @@ public class Player : MonoBehaviour
     private int jumpCount;
     private int jumpCountMax = 2;
     private bool isLeavingGround = false;   
+    private List<IBuff> buffs = new List<IBuff>();  // 保存所有的Buff
+    private List<IBuff> waitToRemove = new List<IBuff>();
+
+
+    // IFactor factors
+    public float  MoveDirectionFactor { get; set; } = 1.0f;
+    public float GravityScaleFactor { get; set; } = 1.0f;
+    public float JumpForceFactor { get; set; } = 1.0f;
+    public bool CanMoveFlag { get; set; } = true;
+    public void RemoveBuff(IBuff buff) {
+        if (!waitToRemove.Contains(buff))
+            waitToRemove.Add(buff);
+    }
+
+    public void ApplyBuff(IBuff buff) {
+        buffs.Add(buff);
+        buff.Apply(this);
+    }
+
 
     private void Awake() {
         controls = new PlayerControls();
@@ -28,11 +48,21 @@ public class Player : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();    
     }
+    private void Start() {
+        ApplyBuff(new DirectionReverseBuff(5));
+        ApplyBuff(new ImmobilityBuff(2));
+    }
     private void Update() {
         PlayerInput(); 
-    }
-    private void FixedUpdate() {
         Move();   
+
+        foreach (var buff in buffs) {
+            buff.Update(this);
+        }
+        foreach (var buff in waitToRemove) {
+            buffs.Remove(buff);
+        }
+        waitToRemove.Clear();
     }
     private void PlayerInput() {
         movement = controls.Player.Move.ReadValue<Vector2>();
@@ -40,6 +70,7 @@ public class Player : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, maxDropSpeed, Mathf.Infinity)); 
     }
     public void OnJump() {
+        Debug.Log("Jump");
         jumpCount++;
 
         // 本次是第jumpCount次跳跃，如果大于最大跳跃次数，就不再跳跃
@@ -55,7 +86,7 @@ public class Player : MonoBehaviour
 
         rb.velocity = new Vector2(rb.velocity.x, 0);
         // 本次跳跃的力度是jumpForce / jumpCount
-        rb.AddForce(Vector2.up * (jumpForce / (jumpCount)), ForceMode2D.Impulse);
+        rb.AddForce(Vector2.up * (jumpForce * JumpForceFactor / (jumpCount)), ForceMode2D.Impulse);
     }
     private IEnumerator ResetIsLeavingGroundAfterDelay(float delay) {
         yield return new WaitForSeconds(delay);
@@ -67,6 +98,11 @@ public class Player : MonoBehaviour
     public void Move() {
         Vector2 newVelocity = movement * moveSpeed;
         newVelocity.y = rb.velocity.y;  // 保持原来的垂直速度，以便受到重力的影响
+
+        // Caused by buff
+        newVelocity.x *= MoveDirectionFactor;
+        newVelocity *= CanMoveFlag ? 1 : 0;
+        
         rb.velocity = newVelocity;
     }
 
@@ -81,6 +117,7 @@ public class Player : MonoBehaviour
 
         return isGrounded;
     }
+
 #if UNITY_EDITOR
     void OnDrawGizmos() {
         Vector2 checkPosition = (Vector2)transform.position + checkPositionOffset;

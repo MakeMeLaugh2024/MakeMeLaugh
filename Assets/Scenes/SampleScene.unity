@@ -164,9 +164,9 @@ GameObject:
   m_Component:
   - component: {fileID: 184790755}
   - component: {fileID: 184790756}
-  - component: {fileID: 184790757}
   - component: {fileID: 184790758}
   - component: {fileID: 184790759}
+  - component: {fileID: 184790760}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -243,23 +243,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &184790757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 184790754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a29bedc9fe73bcc47921a403cb24d0f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controlScheme: LeftKeyboard
-  moveSpeed: 5
-  jumpForce: 10
-  checkSize: {x: 0.5, y: 0.2}
-  checkPositionOffset: {x: 0, y: -0.5}
 --- !u!50 &184790758
 Rigidbody2D:
   serializedVersion: 4
@@ -322,6 +305,24 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &184790760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184790754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 516f1d3bd2df48c4684993435141e51e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlScheme: LeftKeyboard
+  moveSpeed: 5
+  jumpForce: 18
+  checkSize: {x: 0.5, y: 0.2}
+  checkPositionOffset: {x: 0, y: -0.5}
+  maxDropSpeed: -10
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,9 +803,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1928952017}
   - component: {fileID: 1928952016}
-  - component: {fileID: 1928952018}
   - component: {fileID: 1928952019}
   - component: {fileID: 1928952020}
+  - component: {fileID: 1928952021}
   m_Layer: 0
   m_Name: Player (1)
   m_TagString: Untagged
@@ -881,23 +882,6 @@ Transform:
   - {fileID: 1522961323}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1928952018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1928952014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a29bedc9fe73bcc47921a403cb24d0f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controlScheme: RightKeyboard
-  moveSpeed: 5
-  jumpForce: 10
-  checkSize: {x: 0.5, y: 0.2}
-  checkPositionOffset: {x: 0, y: -0.5}
 --- !u!50 &1928952019
 Rigidbody2D:
   serializedVersion: 4
@@ -960,6 +944,24 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &1928952021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928952014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 516f1d3bd2df48c4684993435141e51e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlScheme: RightKeyboard
+  moveSpeed: 5
+  jumpForce: 18
+  checkSize: {x: 0.5, y: 0.2}
+  checkPositionOffset: {x: 0, y: -0.5}
+  maxDropSpeed: -10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
