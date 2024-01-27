@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -40,15 +41,8 @@ public class Player : MonoBehaviour, IBuffUser
         if (!waitToRemove.Contains(buff) && buffs.Contains(buff))
             waitToRemove.Add(buff);
     }
-
-    public void SlipperyHook() {
-        if (IsSlippery) {
-            float direction = isFacingRight ? 1 : -1;
-            rb.velocity = new Vector2(direction * moveSpeed, rb.velocity.y);
-        }
-    }
     public void ApplyBuff(IBuff buff) {
-        // 检查是否已经有相同类型的Buff，如果有，就重置Buff的计时器
+        // 检查是否已经有相同类型的Buff，如果有，就移除掉
         IBuff _buff = null;
         foreach(var b in buffs) {
             if (b.GetType() == buff.GetType()) {
@@ -56,13 +50,12 @@ public class Player : MonoBehaviour, IBuffUser
                 break;
             }
         }
-
         if (_buff != null) {
-            _buff.ResetTimer();
-        } else {
-            //没有的话添加到队列   
-            buffs.Add(buff);
+            buffs.Remove(_buff);
         }
+
+        buffs.Add(buff);
+        buff.Apply(this);
     }
 
     public void GravityScaleHook() {
@@ -85,23 +78,39 @@ public class Player : MonoBehaviour, IBuffUser
         //ApplyBuff(new DirectionReverseBuff(5));
         //ApplyBuff(new ImmobilityBuff(2));
         //ApplyBuff(new GravityChangeBuff(2));
+
+#if UNITY_EDITOR
+        controls.Player.BuffTest.performed += ctx => BuffTest((int)ctx.ReadValue<float>());
+#endif
     }
     private void Update() {
         PlayerInput(); 
-        Move();   
+        Move();
+        CheckGrounded();
+
+        if (IsSlippery) {
+            int direction = isFacingRight ? 1 : -1; 
+            rb.velocity = new Vector2(direction * moveSpeed, rb.velocity.y);
+        }
 
         foreach (var buff in buffs) {
             buff.Update(this);
         }
         foreach (var buff in waitToRemove) {
             buffs.Remove(buff);
+            Debug.Log("Buff移除: " + buff.GetType().Name);
         }
         waitToRemove.Clear();
     }
     private void PlayerInput() {
         movement = controls.Player.Move.ReadValue<Vector2>();
-        jumpCount = IsGrounded() ? 0 : jumpCount;
-        rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, maxDropSpeed * GravityScaleFactor, Mathf.Infinity)); 
+    }
+    private void CheckGrounded() {
+        if (IsGrounded()) {
+            jumpCount = 0;
+            if (!isLeavingGround)
+                rb.velocity = new Vector2(rb.velocity.x, 0);
+        }
     }
     public void OnJump() {
         jumpCount++;
@@ -128,9 +137,11 @@ public class Player : MonoBehaviour, IBuffUser
         isLeavingGround = false; 
     }
 
+
     public void Move() {
-        if (IsSlippery)
+        if (IsSlippery) {
             return;
+        }
 
         Vector2 newVelocity = movement * moveSpeed;
         newVelocity.y = rb.velocity.y;  // 保持原来的垂直速度，以便受到重力的影响
@@ -141,6 +152,8 @@ public class Player : MonoBehaviour, IBuffUser
         newVelocity *= CanMoveFlag ? 1 : 0;
         
         rb.velocity = newVelocity;
+
+        rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, maxDropSpeed * GravityScaleFactor, Mathf.Infinity)); 
     }
 
     public bool IsGrounded() {
@@ -153,6 +166,31 @@ public class Player : MonoBehaviour, IBuffUser
         bool isGrounded = Physics2D.OverlapBox((Vector2)transform.position + checkPositionOffset, checkSize, 0, groundLayer);
 
         return isGrounded;
+    }
+    
+    void BuffTest(int index) {
+        switch (index) {
+            case 1:
+                ApplyBuff(new DirectionReverseBuff(5));
+                Debug.Log("方向反转");
+                break;
+            case 2:
+                ApplyBuff(new GravityChangeBuff(0.5f, 5f));
+                Debug.Log("重力变化");
+                break;
+            case 3:
+                ApplyBuff(new ImmobilityBuff(2));
+                Debug.Log("禁止移动");
+                break;
+            case 4:
+                ApplyBuff(new SlipperyBuff(2));
+                Debug.Log("强制滑行");
+                break;
+            case 5:
+                ApplyBuff(new JumpForceChangeBuff(2, 6));
+                Debug.Log("跳跃力变化");
+                break;
+        } 
     }
 
 

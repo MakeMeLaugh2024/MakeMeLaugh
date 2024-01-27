@@ -14,11 +14,11 @@ public class SlipperyBuff : IBuff {
         // 空中不能打滑
         if (player != null && player.IsGrounded()) {
             obj.IsSlippery = true;
-            obj.SlipperyHook(); 
         }
     }
 
     public void Remove(IBuffUser obj) {
+        obj.IsSlippery = false;
         obj.RemoveBuff(this);
     }
 

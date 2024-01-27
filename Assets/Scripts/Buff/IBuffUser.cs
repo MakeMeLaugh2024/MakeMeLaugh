@@ -16,6 +16,4 @@ public interface IBuffUser {
 
 	// 重力钩子
 	void GravityScaleHook();
-	// 打滑钩子
-	void SlipperyHook();
 }
