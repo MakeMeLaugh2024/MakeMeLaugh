@@ -5,7 +5,8 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    PlayerControls controls;
+    private PlayerControls controls;
+    private Vector2 movement;
 
     [ControlScheme("LeftKeyboard", "RightKeyboard")]
     [SerializeField] string controlScheme;
@@ -16,6 +17,17 @@ public class Player : MonoBehaviour
         controls.Enable();
 
         controls.Player.Jump.performed += ctx => OnJump();
+    }
+
+    private void Update() {
+        PlayerInput(); 
+    }
+    private void FixedUpdate() {
+         
+    }
+
+    private void PlayerInput() {
+        movement = controls.Player.Move.ReadValue<Vector2>();
     }
 
     public void OnJump() {
