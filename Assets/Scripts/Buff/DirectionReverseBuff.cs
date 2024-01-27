@@ -26,10 +26,7 @@ public class DirectionReverseBuff : IBuff {
         }
     }
 
-    public DirectionReverseBuff(float duration) {
+    public DirectionReverseBuff(float duration = 5f) {
         this.duration = duration;
-    }
-    public DirectionReverseBuff() {
-        this.duration = 5f;
     }
 }

@@ -28,7 +28,7 @@ public class GravityChangeBuff : IBuff {
         }
     }
 
-    public GravityChangeBuff(float targetFactor) {
+    public GravityChangeBuff(float targetFactor, float duration=5f) {
         this.targetFactor = targetFactor;
     }
 }
