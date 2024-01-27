@@ -12,6 +12,10 @@ public class GamePanel : BasePanel<GamePanel>
 
     public List<GameObject> hpObjs2;
 
+    public Image PrankSprite1;
+
+    public Image PrankSprite2;
+
     public override void Init()
     {
         btnQuit.onClick.AddListener(() =>
@@ -36,6 +40,16 @@ public class GamePanel : BasePanel<GamePanel>
         {
             hpObjs2[i].SetActive(i < hp);
         }
+    }
+
+    public void ChangeSprite1(Sprite sprite)
+    {
+        PrankSprite1.sprite = sprite;
+    }
+
+    public void ChangeSprite2(Sprite sprite)
+    {
+        PrankSprite2.sprite = sprite;
     }
 
 
