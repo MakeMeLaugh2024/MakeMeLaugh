@@ -28,6 +28,10 @@ public class GravityChangeBuff : IBuff {
         }
     }
 
+    public void ResetTimer() {
+        timer = 0f;
+    }
+
     public GravityChangeBuff(float targetFactor, float duration=5f) {
         this.targetFactor = targetFactor;
     }
