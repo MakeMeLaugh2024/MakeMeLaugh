@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameDataMgr : MonoBehaviour
+public class GameDataMgr 
 {
     private static GameDataMgr instance = new GameDataMgr();
 
@@ -12,16 +12,21 @@ public class GameDataMgr : MonoBehaviour
 
     public ScoreItemSO scoreItemSO;
 
+    public int Score1 = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    public int Score2 = 0;
+
+    public void ChangeScore1(int score)
     {
-        
+        Score1 += score;
+        //更新显示
+        GamePanel.Instance.ChangeScore1(Score1);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ChangeScore2(int score)
     {
-        
+        Score2 += score;
+        //更新显示
+        GamePanel.Instance.ChangeScore2(Score2);
     }
 }

@@ -28,6 +28,9 @@ public class NpcObject : MonoBehaviour
                         // 存在 ScoreItemObject，打印其 info 中的 score 值
                         Debug.Log("Score1: " + scoreItem.info.score + "猫咪吃到了" + scoreItem.info.itemName + "非常高兴");
 
+                        //加分数
+                        GameDataMgr.Instance.ChangeScore1(scoreItem.info.score);
+
                         // 销毁含有 ScoreItemObject 脚本的 GameObject
                         Destroy(child.gameObject);
                     }
@@ -53,6 +56,9 @@ public class NpcObject : MonoBehaviour
                     {
                         // 存在 ScoreItemObject，打印其 info 中的 score 值
                         Debug.Log("Score2:" + scoreItem.info.score + "猫咪吃到了" + scoreItem.info.itemName + "非常高兴");
+
+                        //加分数
+                        GameDataMgr.Instance.ChangeScore2(scoreItem.info.score);
 
                         // 销毁含有 ScoreItemObject 脚本的 GameObject
                         Destroy(child.gameObject);
