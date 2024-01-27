@@ -25,7 +25,7 @@ public class GamePanel : BasePanel<GamePanel>
         });
     }
 
-    public void ChangeScore1(int hp)
+    public void SetFirstPlayerScore(int hp)
     {
         Debug.Log("现在1分数是" + hp);
         for (int i = 0; i < hpObjs1.Count; i++)
@@ -34,7 +34,7 @@ public class GamePanel : BasePanel<GamePanel>
         }
     }
 
-    public void ChangeScore2(int hp)
+    public void SetSecondPlayerScore(int hp)
     {
         for (int i = 0; i < hpObjs2.Count; i++)
         {

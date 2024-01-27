@@ -27,6 +27,8 @@ public class Player : MonoBehaviour, IBuffUser
     private List<IBuff> waitToRemove = new List<IBuff>();
     private float gravityScale = 1.0f;
     private bool isFacingRight = true;
+    private ScoreItem scoreItem;
+    private PrankItem prankItem;
 
     // IFactor factors
     public float  MoveDirectionFactor { get; set; } = 1.0f;
@@ -191,6 +193,47 @@ public class Player : MonoBehaviour, IBuffUser
                 Debug.Log("跳跃力变化");
                 break;
         } 
+    }
+
+
+    public ScoreItem GetScoreItem() {
+        return scoreItem;
+    }
+    public PrankItem GetPrankItem() {
+        return prankItem;
+    }
+    public void PickScoreItem(ScoreItem scoreItem) {
+        if (scoreItem != null) {
+            Debug.Log("已经装备得分道具");
+            return;
+        }
+        this.scoreItem = scoreItem;
+    }
+    public void PickPrankItem(PrankItem prankItem) {
+        if (prankItem !=null) {
+            Debug.Log("已经装备整蛊道具");
+            return;
+        }
+        this.prankItem = prankItem;
+    }
+    public void DropPrankItem() {
+        if (prankItem != null)
+            prankItem = null;
+        else
+            Debug.Log("没有装备整蛊道具");
+    }
+    public void DropScoreItem() {
+        if (scoreItem != null)
+            scoreItem = null;
+        else
+            Debug.Log("没有装备得分道具");
+    }
+
+    public Transform GetHoldScorePosition() {
+        throw new NotImplementedException();
+    }
+    public Transform GetHoldPrankPosition() {
+        throw new NotImplementedException();
     }
 
 

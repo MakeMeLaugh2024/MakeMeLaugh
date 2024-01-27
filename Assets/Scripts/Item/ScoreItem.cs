@@ -1,14 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoreItemObject : MonoBehaviour
+public class ScoreItem : InteractAbleItem
 {
     //子弹类型和使用的数据
-    public ScoreItemSO info;
-    public Transform HandledScore1; // 玩家1手部的位置，需要在编辑器中指定
-    public Transform HandledScore2; // 玩家1手部的位置，需要在编辑器中指定
-
+    public ScoreItemSO currentScoreSO;
+    //public Transform HandledScore1; // 玩家1手部的位置，需要在编辑器中指定
+    //public Transform HandledScore2; // 玩家1手部的位置，需要在编辑器中指定
 
     //public void InitInfo(ScoreItemSO info)
     //{
@@ -17,10 +17,12 @@ public class ScoreItemObject : MonoBehaviour
     //    Invoke("DelayDestroy", info.lifeTime);
     //}
 
+    /*
     private void DelayDestroy()
     {
         Dead();
     }
+    */
 
     public void Dead()
     {
@@ -29,6 +31,8 @@ public class ScoreItemObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        throw new NotImplementedException();
+        /*
         if (other.gameObject.CompareTag("Player1"))
         {
             // 检查玩家1是否已经持有道具
@@ -45,12 +49,15 @@ public class ScoreItemObject : MonoBehaviour
                 PickUpItem(HandledScore2);
             }
         }
+        */
     }
 
-    private void PickUpItem(Transform handledScore)
+    public override void BePicked(Player owner)
     {
+        throw new NotImplementedException();
+        /*
         // 将道具的父对象设置为玩家的手部位置
-        transform.SetParent(handledScore);
+        transform.SetParent(owner.GetHoldScorePosition());
         Debug.Log("抓住了");
 
         // 将道具的局部位置和旋转调整为0，这样它就会位于指定的手部位置
@@ -70,6 +77,18 @@ public class ScoreItemObject : MonoBehaviour
         {
             col.enabled = false; // 禁用 Collider，防止进一步的碰撞检测
         }
+        */
     }
 
+    public override void BeDropped(Player owner) {
+        throw new NotImplementedException();
+    }
+
+    public override void BeUsed(Player owner) {
+        throw new NotImplementedException();
+    }
+
+    public ScoreItemSO GetScoreItemSO() {
+        return currentScoreSO;
+    }
 }
