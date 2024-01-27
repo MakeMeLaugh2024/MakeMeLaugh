@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour, IBuffUser
     private List<IBuff> buffs = new List<IBuff>();  // 保存所有的Buff
     private List<IBuff> waitToRemove = new List<IBuff>();
     private float gravityScale = 1.0f;
+    private bool isFacingRight = true;
 
     // IFactor factors
     public float  MoveDirectionFactor { get; set; } = 1.0f;
@@ -31,14 +33,36 @@ public class Player : MonoBehaviour, IBuffUser
     public float MoveSpeedFactor { get; set; } = 1.0f;
     public float JumpForceFactor { get; set; } = 1.0f;
     public bool CanMoveFlag { get; set; } = true;
+    public bool IsSlippery { get; set; }
+
     public void RemoveBuff(IBuff buff) {
-        if (!waitToRemove.Contains(buff))
+        // 是否已经在等待移除的队列中，并且是否在buffs中
+        if (!waitToRemove.Contains(buff) && buffs.Contains(buff))
             waitToRemove.Add(buff);
     }
 
+    public void SlipperyHook() {
+        if (IsSlippery) {
+            float direction = isFacingRight ? 1 : -1;
+            rb.velocity = new Vector2(direction * moveSpeed, rb.velocity.y);
+        }
+    }
     public void ApplyBuff(IBuff buff) {
-        buffs.Add(buff);
-        buff.Apply(this);
+        // 检查是否已经有相同类型的Buff，如果有，就重置Buff的计时器
+        IBuff _buff = null;
+        foreach(var b in buffs) {
+            if (b.GetType() == buff.GetType()) {
+                _buff = b;
+                break;
+            }
+        }
+
+        if (_buff != null) {
+            _buff.ResetTimer();
+        } else {
+            //没有的话添加到队列   
+            buffs.Add(buff);
+        }
     }
 
     public void GravityScaleHook() {
@@ -80,7 +104,6 @@ public class Player : MonoBehaviour, IBuffUser
         rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, maxDropSpeed * GravityScaleFactor, Mathf.Infinity)); 
     }
     public void OnJump() {
-        Debug.Log("Jump");
         jumpCount++;
 
         // 本次是第jumpCount次跳跃，如果大于最大跳跃次数，就不再跳跃
@@ -106,6 +129,9 @@ public class Player : MonoBehaviour, IBuffUser
     }
 
     public void Move() {
+        if (IsSlippery)
+            return;
+
         Vector2 newVelocity = movement * moveSpeed;
         newVelocity.y = rb.velocity.y;  // 保持原来的垂直速度，以便受到重力的影响
 
@@ -129,6 +155,7 @@ public class Player : MonoBehaviour, IBuffUser
         return isGrounded;
     }
 
+
 #if UNITY_EDITOR
     void OnDrawGizmos() {
         Vector2 checkPosition = (Vector2)transform.position + checkPositionOffset;
@@ -139,5 +166,7 @@ public class Player : MonoBehaviour, IBuffUser
         // 绘制一个矩形
         Gizmos.DrawWireCube(checkPosition, checkSize);
     }
+
+
 #endif
 }

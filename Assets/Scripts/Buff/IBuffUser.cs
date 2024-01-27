@@ -9,11 +9,13 @@ public interface IBuffUser {
 	float JumpForceFactor { get; set; }
 	float MoveSpeedFactor { get; set; }
 	bool CanMoveFlag { get; set; }
-	
+	bool IsSlippery { get; set; }
 
-	void RemoveBuff(IBuff buff);
+    void RemoveBuff(IBuff buff);
 	void ApplyBuff(IBuff buff);
 
-	// 重力因子发生变化，调用此函数
+	// 重力钩子
 	void GravityScaleHook();
+	// 打滑钩子
+	void SlipperyHook();
 }
