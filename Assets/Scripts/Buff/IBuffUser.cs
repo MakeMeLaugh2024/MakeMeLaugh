@@ -16,4 +16,5 @@ public interface IBuffUser {
 
 	// ÖØÁ¦¹³×Ó
 	void GravityScaleHook();
+	void HoverHook(float duration, HoverBuff hoverBuff);
 }

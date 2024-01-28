@@ -36,4 +36,7 @@ public class SlipperyBuff : IBuff {
     public SlipperyBuff(float duration = 5f) {
         this.duration = duration;
     }
+    public void SetTimer(float timer) {
+        this.timer = timer;
+    }
 }

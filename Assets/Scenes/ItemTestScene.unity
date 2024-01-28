@@ -1887,6 +1887,8 @@ MonoBehaviour:
   checkSize: {x: 0.5, y: 0.2}
   checkPositionOffset: {x: 0, y: -0.5}
   maxDropSpeed: -10
+  scoreItemSO: {fileID: 0}
+  prankItemSO: {fileID: 0}
 --- !u!212 &701481086
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2593,7 +2595,7 @@ GameObject:
   m_Component:
   - component: {fileID: 974838110}
   m_Layer: 0
-  m_Name: HandledScore
+  m_Name: ActiveScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2624,7 +2626,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1040465638}
   m_Layer: 0
-  m_Name: HandledZhenggu
+  m_Name: ActivePrank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3727,6 +3729,8 @@ MonoBehaviour:
   checkSize: {x: 0.5, y: 0.2}
   checkPositionOffset: {x: 0, y: -0.5}
   maxDropSpeed: -10
+  scoreItemSO: {fileID: 0}
+  prankItemSO: {fileID: 0}
 --- !u!212 &1603378100
 SpriteRenderer:
   m_ObjectHideFlags: 0

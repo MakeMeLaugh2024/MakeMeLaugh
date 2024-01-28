@@ -13,4 +13,6 @@ public class PrankItemSO : ScriptableObject
     public Sprite itemSprite;
     //生成后多久消失
     public float lifeTime;
+    public PrankItemType prankType;
+    public GameObject prefab;
 }

@@ -15,4 +15,5 @@ public class ScoreItemSO : ScriptableObject
     public Sprite itemSprite;
     //生成后多久消失
     public float lifeTime;
+    public GameObject prefab;
 }

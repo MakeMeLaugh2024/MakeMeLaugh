@@ -16,3 +16,5 @@ MonoBehaviour:
   prankItemName: feather
   itemSprite: {fileID: 1876629732, guid: 8b29d2d96759a224c80058cb6b0cf6c5, type: 3}
   lifeTime: 5
+  prankType: 0
+  prefab: {fileID: 7373660525910106252, guid: 832a06f3b561458408e3a77fe1ba24dd, type: 3}

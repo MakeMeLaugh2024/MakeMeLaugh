@@ -4,4 +4,5 @@ public interface IBuff {
     void Remove(IBuffUser obj);
     void Update(IBuffUser obj); 
     void ResetTimer();
+    void SetTimer(float timer);
 }

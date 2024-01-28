@@ -30,6 +30,10 @@ public class DirectionReverseBuff : IBuff {
         timer = 0f;
     }
 
+    public void SetTimer(float timer) {
+        this.timer = timer;
+    }
+
     public DirectionReverseBuff(float duration = 5f) {
         this.duration = duration;
     }

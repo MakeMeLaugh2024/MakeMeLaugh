@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,6 +11,11 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))] 
 public class Player : MonoBehaviour, IBuffUser
 {
+
+    public event EventHandler OnScoreItemChanged;
+    public event EventHandler OnPrankItemChanged;
+    public event EventHandler<StateTypeEventArgs> OnStateChanged;
+
     [ControlScheme("LeftKeyboard", "RightKeyboard")]
     [SerializeField] string controlScheme;
     [SerializeField] float moveSpeed = 5.0f;
@@ -20,6 +27,7 @@ public class Player : MonoBehaviour, IBuffUser
     private PlayerControls controls;
     private Vector2 movement;
     private Rigidbody2D rb;
+    private SpriteRenderer spriteRenderer;
     private int jumpCount;
     private int jumpCountMax = 2;
     private bool isLeavingGround = false;   
@@ -27,8 +35,9 @@ public class Player : MonoBehaviour, IBuffUser
     private List<IBuff> waitToRemove = new List<IBuff>();
     private float gravityScale = 1.0f;
     private bool isFacingRight = true;
-    private ScoreItem scoreItem;
-    private PrankItem prankItem;
+    private StateType state;
+    private ScoreItemSO scoreItemSO;
+    private PrankItemSO prankItemSO;
 
     // IFactor factors
     public float  MoveDirectionFactor { get; set; } = 1.0f;
@@ -73,7 +82,9 @@ public class Player : MonoBehaviour, IBuffUser
         controls.Enable();
         controls.Player.Jump.performed += ctx => OnJump();
 
+
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         gravityScale = rb.gravityScale;
     }
     private void Start() {
@@ -86,6 +97,15 @@ public class Player : MonoBehaviour, IBuffUser
 #endif
     }
     private void Update() {
+        foreach (var buff in buffs) {
+            buff.Update(this);
+        }
+        foreach (var buff in waitToRemove) {
+            buffs.Remove(buff);
+            Debug.Log("Buff移除: " + buff.GetType().Name);
+        }
+        waitToRemove.Clear();
+
         PlayerInput(); 
         Move();
         CheckGrounded();
@@ -95,14 +115,8 @@ public class Player : MonoBehaviour, IBuffUser
             rb.velocity = new Vector2(direction * moveSpeed, rb.velocity.y);
         }
 
-        foreach (var buff in buffs) {
-            buff.Update(this);
-        }
-        foreach (var buff in waitToRemove) {
-            buffs.Remove(buff);
-            Debug.Log("Buff移除: " + buff.GetType().Name);
-        }
-        waitToRemove.Clear();
+        UpdateFacing();
+        UpdateState();
     }
     private void PlayerInput() {
         movement = controls.Player.Move.ReadValue<Vector2>();
@@ -139,7 +153,6 @@ public class Player : MonoBehaviour, IBuffUser
         isLeavingGround = false; 
     }
 
-
     public void Move() {
         if (IsSlippery) {
             return;
@@ -155,7 +168,15 @@ public class Player : MonoBehaviour, IBuffUser
         
         rb.velocity = newVelocity;
 
-        rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, maxDropSpeed * GravityScaleFactor, Mathf.Infinity)); 
+        rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, maxDropSpeed * GravityScaleFactor, Mathf.Infinity));
+
+    }
+    private void UpdateFacing() {
+        if (rb.velocity.x == 0)
+            return;
+        isFacingRight = rb.velocity.x > 0;
+
+        spriteRenderer.flipX = isFacingRight ? false : true;
     }
 
     public bool IsGrounded() {
@@ -168,6 +189,73 @@ public class Player : MonoBehaviour, IBuffUser
         bool isGrounded = Physics2D.OverlapBox((Vector2)transform.position + checkPositionOffset, checkSize, 0, groundLayer);
 
         return isGrounded;
+    }
+    public void SetScoreItemSO(ScoreItemSO scoreItemSO) {
+        this.scoreItemSO = scoreItemSO;
+        OnScoreItemChanged?.Invoke(this, EventArgs.Empty);
+    }
+    public void SetPrankItemSO(PrankItemSO prankItemSO) {
+        this.prankItemSO = prankItemSO;
+        OnPrankItemChanged?.Invoke(this, EventArgs.Empty);
+    }
+    public bool IsHaveScoreItem() {
+        return scoreItemSO != null;
+    }
+    public bool IsHavePrankItem() {
+        return prankItemSO != null;
+    }
+    public void UpdateState() {
+        StateType lastState = state;
+
+        state = StateType.Idle;
+
+        if (rb.velocity.x != 0)
+            state = StateType.Run;
+        if (rb.velocity.y > 0)
+            state = StateType.Jump;
+        if (rb.velocity.y < 0)
+            state = StateType.Down;
+        if (IsSlippery)
+            state = StateType.Slippy;
+
+        if (lastState != state) {
+            OnStateChanged?.Invoke(this, new StateTypeEventArgs(state));
+        }
+    }
+    public ScoreItemSO GetScoreItemSO() {
+        return scoreItemSO;
+    }
+    public PrankItemSO GetPrankItemSO() {
+        return prankItemSO;
+    }
+    public void HoverHook(float d, HoverBuff hoverBuff) {
+        Debug.Log(d + "时间");
+        var jumpBuff = new JumpForceChangeBuff(1f, d);
+        ApplyBuff(jumpBuff);
+        OnJump();
+        jumpBuff = new JumpForceChangeBuff(0f, d);
+        ApplyBuff(jumpBuff);
+
+        StartCoroutine(SlowDownToVerticalZero(d * 0.4f));
+
+        var gravityBuff = new GravityChangeBuff(0.01f, d);
+        ApplyBuff(gravityBuff);
+
+        // 确保buff同时消除
+        jumpBuff.SetTimer(hoverBuff.GetTimer());
+        gravityBuff.SetTimer(hoverBuff.GetTimer());
+    }
+    IEnumerator SlowDownToVerticalZero(float delay) {
+        float startTime = Time.time;
+
+        float startVelocity = rb.velocity.y;
+
+        while (Time.time - startTime < delay) {
+            // 计算过渡的进度，它是一个从0到1的值
+            float t = (Time.time - startTime) / delay;
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Lerp(startVelocity, 0, t));
+            yield return null;
+        }
     }
     
     void BuffTest(int index) {
@@ -192,50 +280,12 @@ public class Player : MonoBehaviour, IBuffUser
                 ApplyBuff(new JumpForceChangeBuff(2, 6));
                 Debug.Log("跳跃力变化");
                 break;
+            case 6:
+                ApplyBuff(new HoverBuff(2f));
+                Debug.Log("悬浮");
+                break;
         } 
     }
-
-
-    public ScoreItem GetScoreItem() {
-        return scoreItem;
-    }
-    public PrankItem GetPrankItem() {
-        return prankItem;
-    }
-    public void PickScoreItem(ScoreItem scoreItem) {
-        if (scoreItem != null) {
-            Debug.Log("已经装备得分道具");
-            return;
-        }
-        this.scoreItem = scoreItem;
-    }
-    public void PickPrankItem(PrankItem prankItem) {
-        if (prankItem !=null) {
-            Debug.Log("已经装备整蛊道具");
-            return;
-        }
-        this.prankItem = prankItem;
-    }
-    public void DropPrankItem() {
-        if (prankItem != null)
-            prankItem = null;
-        else
-            Debug.Log("没有装备整蛊道具");
-    }
-    public void DropScoreItem() {
-        if (scoreItem != null)
-            scoreItem = null;
-        else
-            Debug.Log("没有装备得分道具");
-    }
-
-    public Transform GetHoldScorePosition() {
-        throw new NotImplementedException();
-    }
-    public Transform GetHoldPrankPosition() {
-        throw new NotImplementedException();
-    }
-
 
 #if UNITY_EDITOR
     void OnDrawGizmos() {
@@ -247,6 +297,8 @@ public class Player : MonoBehaviour, IBuffUser
         // 绘制一个矩形
         Gizmos.DrawWireCube(checkPosition, checkSize);
     }
+
+
 
 
 #endif

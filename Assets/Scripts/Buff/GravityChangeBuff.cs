@@ -32,7 +32,12 @@ public class GravityChangeBuff : IBuff {
         timer = 0f;
     }
 
+    public void SetTimer(float timer) {
+        this.timer = timer;
+    }
+
     public GravityChangeBuff(float targetFactor, float duration=5f) {
         this.targetFactor = targetFactor;
+        this.duration = duration;
     }
 }

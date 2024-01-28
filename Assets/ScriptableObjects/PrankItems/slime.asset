@@ -16,3 +16,5 @@ MonoBehaviour:
   prankItemName: slime
   itemSprite: {fileID: -576381253, guid: 645c4a58a4597d1469c4b93cb370aa38, type: 3}
   lifeTime: 5
+  prankType: 3
+  prefab: {fileID: 1289838341581713530, guid: 2b70aebf7a2e02545bb667cfc74db97e, type: 3}

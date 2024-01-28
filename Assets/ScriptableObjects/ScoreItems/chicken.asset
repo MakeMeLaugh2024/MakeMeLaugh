@@ -17,3 +17,4 @@ MonoBehaviour:
   score: 2
   itemSprite: {fileID: 445488117, guid: aed120463a1d7ed4586c02fd3e9df7fd, type: 3}
   lifeTime: 4
+  prefab: {fileID: 3153147247360737639, guid: f31de9a549194504eae30c5cd78768d6, type: 3}

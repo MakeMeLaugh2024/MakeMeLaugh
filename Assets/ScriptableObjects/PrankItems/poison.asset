@@ -16,3 +16,5 @@ MonoBehaviour:
   prankItemName: poison
   itemSprite: {fileID: -1672575760, guid: 45c8f606f02cd4242a7111256444d774, type: 3}
   lifeTime: 5
+  prankType: 2
+  prefab: {fileID: 7382330340728397129, guid: bc10c0400fa95c640861883aa1799f9f, type: 3}

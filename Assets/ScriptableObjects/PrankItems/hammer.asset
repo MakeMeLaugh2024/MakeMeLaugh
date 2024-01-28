@@ -16,3 +16,5 @@ MonoBehaviour:
   prankItemName: hammer
   itemSprite: {fileID: -1366017066, guid: 4543a1e8daf33c748bafcb95a8400da7, type: 3}
   lifeTime: 5
+  prankType: 1
+  prefab: {fileID: 3734787895130287913, guid: bab146aa02cef2741a4b7ccc8e310141, type: 3}

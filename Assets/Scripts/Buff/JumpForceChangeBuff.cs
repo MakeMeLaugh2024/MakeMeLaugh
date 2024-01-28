@@ -32,5 +32,9 @@ public class JumpForceChangeBuff : IBuff {
 
     public JumpForceChangeBuff(float targetFactor, float duration = 5f) {
         this.targetFactor = targetFactor;
+        this.duration = duration;
+    }
+    public void SetTimer(float timer) {
+        this.timer = timer;
     }
 }

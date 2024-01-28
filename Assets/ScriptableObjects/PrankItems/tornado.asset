@@ -16,3 +16,5 @@ MonoBehaviour:
   prankItemName: tornado
   itemSprite: {fileID: -1006379746, guid: eb23acc4cd8d88d4cb67dc8a77c7ab73, type: 3}
   lifeTime: 5
+  prankType: 4
+  prefab: {fileID: 5333791766073937784, guid: 852c086704dd83a45a638e39897751a6, type: 3}
