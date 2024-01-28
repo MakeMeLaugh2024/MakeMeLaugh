@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4392357703353697803}
   - component: {fileID: 1269262581324789653}
   - component: {fileID: 6679183466907206970}
+  - component: {fileID: 2739008150627175464}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Untagged
@@ -120,3 +121,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPrankSO: {fileID: 11400000, guid: 34240d852f96bb0439d1852be0feb4f4, type: 2}
+--- !u!60 &2739008150627175464
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289838341581713530}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.4375, y: 0.5}
+      - {x: -0.5, y: 0.375}
+      - {x: -0.5, y: -0.375}
+      - {x: -0.375, y: -0.5}
+      - {x: 0.375, y: -0.5}
+      - {x: 0.5, y: -0.4375}
+      - {x: 0.5, y: 0.3125}
+      - {x: 0.375, y: 0.5}
+  m_UseDelaunayMesh: 0
