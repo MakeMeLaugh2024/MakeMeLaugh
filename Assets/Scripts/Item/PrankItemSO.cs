@@ -15,4 +15,5 @@ public class PrankItemSO : ScriptableObject
     public float lifeTime;
     public PrankItemType prankType;
     public GameObject prefab;
+    public GameObject PrankVFX;
 }

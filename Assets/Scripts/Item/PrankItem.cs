@@ -35,7 +35,7 @@ public class PrankItem : MonoBehaviour{
             case PrankItemType.Hammer:
                 buffs.Add(new ImmobilityBuff(2f));
                 break;
-            case PrankItemType.Silme:
+            case PrankItemType.Slime:
                 buffs.Add(new SpeedChangedBuff(0.5f, 5f));
                 break;
             case PrankItemType.Posion:
@@ -65,7 +65,7 @@ public class PrankItem : MonoBehaviour{
                 //打落对面得分道具
                 player.SetScoreItemSO(null);
                 break;
-            case PrankItemType.Silme:
+            case PrankItemType.Slime:
                 break;
             case PrankItemType.Posion:
                 break;
@@ -74,5 +74,8 @@ public class PrankItem : MonoBehaviour{
                 player.SetPrankItemSO(null);
                 break;
         }
+        GameObject objVFX = Instantiate(currentPrankSO.PrankVFX, player.transform.position, Quaternion.identity);
+        Debug.Log(objVFX.name);
+        Destroy(gameObject);
     }
 }

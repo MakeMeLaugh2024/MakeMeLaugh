@@ -18,3 +18,4 @@ MonoBehaviour:
   lifeTime: 5
   prankType: 2
   prefab: {fileID: 7382330340728397129, guid: bc10c0400fa95c640861883aa1799f9f, type: 3}
+  PrankVFX: {fileID: 4943309465692163301, guid: 25d0fd9906aa1be46a9094ad59decb64, type: 3}

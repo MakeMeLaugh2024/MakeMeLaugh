@@ -2,6 +2,6 @@ public enum PrankItemType {
     Feather,
     Hammer,
     Posion,
-    Silme,
+    Slime,
     Tornado
 }

@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: f2ec657e75473b640abe775f13c2abc9
+guid: 48821b1f2124ef74daedef463326cb0f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - currentPrankSO: {fileID: 11400000, guid: a2a171f169a859f45b68a06c239f9d7c, type: 2}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
