@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Random = UnityEngine.Random;
@@ -9,6 +10,7 @@ using Random = UnityEngine.Random;
 public class GameManager : Singleton<GameManager> {
     public event EventHandler OnScoreChanged;
 
+    [SerializeField] TextMeshProUGUI WinTest;
     [SerializeField] List<RespawnPoint> spawnPoints;
     [SerializeField] private Player firstPlayer;
     [SerializeField] private Player secondPlayer;
@@ -99,6 +101,13 @@ public class GameManager : Singleton<GameManager> {
             throw new System.Exception("Player not found");
     } 
     public void WhoWin(Player player) {
-        Debug.Log(player.name + "win"); 
+        Debug.Log(player.name + "win");
+        WinTest.gameObject.SetActive(true);
+        if (player == firstPlayer)
+            WinTest.text = "Player 1 win";
+        else if (player == secondPlayer)
+            WinTest.text = "Player 2 win";
+        else
+            throw new System.Exception("Player not found");
     }
 }
