@@ -1,18 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic; 
 
-public class AudioClipCollectionSO : MonoBehaviour
+[CreateAssetMenu(fileName = "New AudioClipCollection", menuName = "Audio Clip Collection")]
+public class AudioClipCollectionSO : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public List<AudioClipSO> audioClips = new List<AudioClipSO>(); //  π”√List¥Ê¥¢
 }
