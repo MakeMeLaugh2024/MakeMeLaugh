@@ -4,8 +4,7 @@ using UnityEngine.UI;
 public class EquipmentPanel: MonoBehaviour {
     [SerializeField] Player player;
     [SerializeField] Image prankImage;
-    [SerializeField] Image scoreImage;
-    [SerializeField]  
+    [SerializeField] Image scoreImage; 
 
     private void Start() {
         UpdateVisual();

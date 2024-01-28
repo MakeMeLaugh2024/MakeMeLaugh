@@ -46,6 +46,8 @@ public class Player : MonoBehaviour, IBuffUser
     public float JumpForceFactor { get; set; } = 1.0f;
     public bool CanMoveFlag { get; set; } = true;
     public bool IsSlippery { get; set; }
+    public Action<object, object> OnScoreChanged { get; internal set; }
+    public object FirstPlayerScore { get; internal set; }
 
     public void RemoveBuff(IBuff buff) {
         // 是否已经在等待移除的队列中，并且是否在buffs中
