@@ -5,6 +5,7 @@ public class EquipmentPanel: MonoBehaviour {
     [SerializeField] Player player;
     [SerializeField] Image prankImage;
     [SerializeField] Image scoreImage;
+    [SerializeField]  
 
     private void Start() {
         UpdateVisual();
