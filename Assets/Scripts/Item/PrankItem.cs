@@ -29,17 +29,17 @@ public class PrankItem : MonoBehaviour{
 
         switch (currentPrankSO.prankType) {
             case PrankItemType.Feather:
-                buffs.Add(new GravityChangeBuff(0.5f, 5f));
-                buffs.Add(new JumpForceChangeBuff(1.2f, 5f));
+                buffs.Add(new GravityChangeBuff(0.5f, 3f));
+                buffs.Add(new JumpForceChangeBuff(1.2f, 3f));
                 break;
             case PrankItemType.Hammer:
                 buffs.Add(new ImmobilityBuff(2f));
                 break;
             case PrankItemType.Slime:
-                buffs.Add(new SpeedChangedBuff(0.5f, 5f));
+                buffs.Add(new SpeedChangedBuff(0.5f, 4f));
                 break;
             case PrankItemType.Posion:
-                buffs.Add(new DirectionReverseBuff(5f));
+                buffs.Add(new DirectionReverseBuff(4f));
                 break;
             case PrankItemType.Tornado:
                 buffs.Add(new HoverBuff(2f));

@@ -73,28 +73,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "up",
-                    "id": "64f40f99-fbda-4a48-af23-aac998bdff38",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "LeftKeyboard",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "b6eb4691-cd3b-455b-981e-efe6e98c549c",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "LeftKeyboard",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "left",
                     "id": "2a75d4c7-9d9a-4ec8-9654-8da467124406",
                     "path": "<Keyboard>/a",
@@ -128,28 +106,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "up",
-                    "id": "15352866-a0ca-40b4-b7f7-00b82f6ab3aa",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "RightKeyboard",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "f87aecd4-8580-4805-b5f9-55b0103b9a28",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "RightKeyboard",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "left",
                     "id": "f8d8b14b-a96b-4e66-9296-0d9a5d27fb54",
                     "path": "<Keyboard>/leftArrow",
@@ -174,7 +130,7 @@
                 {
                     "name": "",
                     "id": "7864a676-c815-422f-ace9-942de0f1cf18",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "LeftKeyboard",
@@ -185,7 +141,7 @@
                 {
                     "name": "",
                     "id": "e2ea4ba8-7f79-4cc5-90ab-054d51d2f2fc",
-                    "path": "<Keyboard>/numpad0",
+                    "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "RightKeyboard",
@@ -262,7 +218,7 @@
                 {
                     "name": "",
                     "id": "4842081b-9006-4f39-a3a0-1cf9b978c8d7",
-                    "path": "<Keyboard>/v",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "LeftKeyboard",
@@ -273,7 +229,7 @@
                 {
                     "name": "",
                     "id": "4f535656-5bc5-4b7b-9a30-66b65ea506c6",
-                    "path": "<Keyboard>/numpad1",
+                    "path": "<Keyboard>/comma",
                     "interactions": "",
                     "processors": "",
                     "groups": "RightKeyboard",
@@ -284,7 +240,7 @@
                 {
                     "name": "",
                     "id": "e35ca398-4e58-4836-bfe8-9c19e50d97a1",
-                    "path": "<Keyboard>/b",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "LeftKeyboard",
@@ -295,7 +251,7 @@
                 {
                     "name": "",
                     "id": "bb531343-7d75-40d8-8975-a34a80551920",
-                    "path": "<Keyboard>/numpad2",
+                    "path": "<Keyboard>/period",
                     "interactions": "",
                     "processors": "",
                     "groups": "RightKeyboard",
@@ -317,7 +273,7 @@
                 {
                     "name": "",
                     "id": "86c21f4b-5028-4ac9-8fd7-f0e8f4d88917",
-                    "path": "<Keyboard>/numpad3",
+                    "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "RightKeyboard",
