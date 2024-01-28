@@ -113,8 +113,6 @@ public class Player : MonoBehaviour, IBuffUser
         GameObject prankItem = Instantiate(prankItemSO.prefab, transform.position, Quaternion.identity);
         PrankItem prank = prankItem.GetComponent<PrankItem>();
         prank.UseTo(GameManager.Instance.GetEnemyPlayer(this));
-        Destroy(prankItem);
-
         SetPrankItemSO(null);
     }
     private void Update() {
