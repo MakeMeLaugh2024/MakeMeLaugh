@@ -1424,10 +1424,10 @@ MonoBehaviour:
   - {fileID: 1601772273}
   firstPlayer: {fileID: 442973491}
   secondPlayer: {fileID: 1685122008}
-  scoreItemRatio: 0.6
+  scoreItemRatio: 0.3
   respawnRatio: 0.5
   respawnInterval: 0.5
-  winScore: 10
+  winScore: 20
   prankItemCollectionSO: {fileID: 11400000, guid: 0cbfaf2b1c951834daf50afb378336d0, type: 2}
   scoreItemCollectionSO: {fileID: 11400000, guid: db7a3fb5e520d0a4aa37f39d4360ba15, type: 2}
 --- !u!4 &739132104
