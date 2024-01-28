@@ -13,6 +13,9 @@ public class HoverBuff : IBuff {
     public void Apply(IBuffUser obj) {
         Debug.Log(this.ToString() + duration);
         obj.HoverHook(duration, this);
+
+
+        Debug.Log("Ðü¸¡buff");
     }
 
     public void Remove(IBuffUser obj) {

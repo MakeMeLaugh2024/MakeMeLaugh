@@ -11,6 +11,7 @@ public class ImmobilityBuff : IBuff {
 
     public void Apply(IBuffUser obj) {
         obj.CanMoveFlag = false;
+        Debug.Log("½ûÖ¹ÒÆ¶¯");
     }
 
     public void Remove(IBuffUser obj) {

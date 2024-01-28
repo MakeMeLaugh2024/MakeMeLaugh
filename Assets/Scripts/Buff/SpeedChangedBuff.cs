@@ -12,6 +12,7 @@ public class SpeedChangedBuff : IBuff {
 
     public void Apply(IBuffUser obj) {
         obj.MoveSpeedFactor = targetFactor;
+        Debug.Log("速度变化");
     }
 
     public void Remove(IBuffUser obj) {

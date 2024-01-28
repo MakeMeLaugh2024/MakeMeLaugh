@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using Random = UnityEngine.Random;
 
-public class GameManager : MonoBehaviour
-{
+public class GameManager : Singleton<GameManager> {
+    public event EventHandler OnScoreChanged;
+
     [SerializeField] List<RespawnPoint> spawnPoints;
     [SerializeField] private Player firstPlayer;
     [SerializeField] private Player secondPlayer;
@@ -15,20 +18,23 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float respawnRatio = .3f;
     // 询问生成的间隔
     [SerializeField] private float respawnInterval = 1f;
-
-    private static GameManager instance;
-    public static GameManager Instance => instance;
+    // 胜利要达到的分数
+    [SerializeField] private float winScore = 10f;
 
     public PrankItemCollectionSO prankItemCollectionSO;
 
     public ScoreItemCollectionSO scoreItemCollectionSO;
 
-    public int FirstPlayerScore = 0;
+    public int FirstPlayerScore { get; private set; }
 
-    public int SecondPlayerScore = 0;
+    public int SecondPlayerScore { get; private set; }
 
     private void Start() {
         StartCoroutine(RandomRespawnItem());
+        OnScoreChanged += (sender, e) => ScoreTest();
+    }
+    private void ScoreTest() {
+        Debug.Log("Frist:" + FirstPlayerScore + "Second:" + SecondPlayerScore);
     }
 
     private IEnumerator RandomRespawnItem() {
@@ -57,15 +63,23 @@ public class GameManager : MonoBehaviour
     public void SetFirstPlayerScore(int score)
     {
         FirstPlayerScore = score;
-        //������ʾ
-        GamePanel.Instance.SetFirstPlayerScore(FirstPlayerScore);
+        OnScoreChanged?.Invoke(this, EventArgs.Empty);
+
+        if (score < 0)
+            score = 0;
+        if (score > winScore)
+            WhoWin(firstPlayer);
     }
 
     public void SetSecondPlayerScore(int score)
     {
         SecondPlayerScore = score;
-        //������ʾ
-        GamePanel.Instance.SetSecondPlayerScore(SecondPlayerScore);
+        OnScoreChanged?.Invoke(this, EventArgs.Empty);
+
+        if (score < 0)
+            score = 0;
+        if (score > winScore)
+            WhoWin(secondPlayer);
     }
 
     public Player GetEnemyPlayer(Player player) {
@@ -74,7 +88,17 @@ public class GameManager : MonoBehaviour
         else if (player == secondPlayer)
             return firstPlayer;
         else
-            throw new System.Exception("��Ҳ�����");
+            throw new System.Exception("Player not found");
     }
-
+    public void ChangeScoreOfPlayer(Player player, int delta) {
+        if (player == firstPlayer)
+            SetFirstPlayerScore(FirstPlayerScore + delta);
+        else if (player == secondPlayer)
+            SetSecondPlayerScore(SecondPlayerScore + delta);
+        else
+            throw new System.Exception("Player not found");
+    } 
+    public void WhoWin(Player player) {
+        Debug.Log(player.name + "win"); 
+    }
 }

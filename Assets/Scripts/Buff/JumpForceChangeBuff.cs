@@ -12,6 +12,7 @@ public class JumpForceChangeBuff : IBuff {
 
     public void Apply(IBuffUser obj) {
         obj.JumpForceFactor = targetFactor;
+        Debug.Log("ÌøÔ¾Á¦±ä»¯");
     }
 
     public void Remove(IBuffUser obj) {

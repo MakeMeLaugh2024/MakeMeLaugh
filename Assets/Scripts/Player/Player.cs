@@ -95,6 +95,27 @@ public class Player : MonoBehaviour, IBuffUser
 #if UNITY_EDITOR
         controls.Player.BuffTest.performed += ctx => BuffTest((int)ctx.ReadValue<float>());
 #endif
+        controls.Player.DropPrank.performed += ctx => DropPrankItem();
+        controls.Player.DropScore.performed += ctx => DropScoreItem();
+        controls.Player.UsePrank.performed += ctx => UsePrankItem();
+    }
+    public void DropPrankItem() {
+        SetPrankItemSO(null);
+    }
+    public void DropScoreItem() {
+        SetScoreItemSO(null);
+    }
+    public void UsePrankItem() {
+        Debug.Log("使用道具");
+        if (prankItemSO == null)
+            return;
+
+        GameObject prankItem = Instantiate(prankItemSO.prefab, transform.position, Quaternion.identity);
+        PrankItem prank = prankItem.GetComponent<PrankItem>();
+        prank.UseTo(GameManager.Instance.GetEnemyPlayer(this));
+        Destroy(prankItem);
+
+        SetPrankItemSO(null);
     }
     private void Update() {
         foreach (var buff in buffs) {
@@ -191,10 +212,16 @@ public class Player : MonoBehaviour, IBuffUser
         return isGrounded;
     }
     public void SetScoreItemSO(ScoreItemSO scoreItemSO) {
+        if (this.scoreItemSO == scoreItemSO)
+            return;
+        
         this.scoreItemSO = scoreItemSO;
         OnScoreItemChanged?.Invoke(this, EventArgs.Empty);
     }
     public void SetPrankItemSO(PrankItemSO prankItemSO) {
+        if (this.prankItemSO == prankItemSO)
+            return;
+        
         this.prankItemSO = prankItemSO;
         OnPrankItemChanged?.Invoke(this, EventArgs.Empty);
     }

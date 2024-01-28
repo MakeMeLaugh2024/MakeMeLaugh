@@ -13,6 +13,8 @@ public class GravityChangeBuff : IBuff {
     public void Apply(IBuffUser obj) {
         obj.GravityScaleFactor = targetFactor;
         obj.GravityScaleHook(); 
+
+        Debug.Log("方向反向");
     }
 
     public void Remove(IBuffUser obj) {

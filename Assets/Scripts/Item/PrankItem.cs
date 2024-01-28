@@ -8,7 +8,8 @@ public class PrankItem : MonoBehaviour{
     //子弹类型和使用的数据
     [SerializeField] PrankItemSO currentPrankSO;
 
-    private List<IBuff> buffs = null;
+    private List<IBuff> buffs = new List<IBuff>();
+    private bool isInited = false;
 
     public void OnTriggerEnter2D(Collider2D collision) {
         Player player = collision.gameObject.GetComponent<Player>();
@@ -19,8 +20,11 @@ public class PrankItem : MonoBehaviour{
             Destroy(gameObject);
         }
     }
+    public void SetPrankItemSO(PrankItemSO prankItemSO) {
+        currentPrankSO = prankItemSO; 
+    }
     public void Init() {
-        if (buffs != null)
+        if (isInited)
             return;
 
         switch (currentPrankSO.prankType) {
@@ -38,10 +42,37 @@ public class PrankItem : MonoBehaviour{
                 buffs.Add(new DirectionReverseBuff(5f));
                 break;
             case PrankItemType.Tornado:
+                buffs.Add(new HoverBuff(2f));
                 break;
         }
+        isInited = true;
     }
     public PrankItemSO GetPrankItemSO() {
         return currentPrankSO;
+    }
+    public void UseTo(Player player) {
+        if (!isInited)
+            Init();
+        Debug.Log("添加buff" + buffs.Count);
+        foreach (var buff in buffs) {
+            player.ApplyBuff(buff);
+        }
+
+        switch (currentPrankSO.prankType) {
+            case PrankItemType.Feather:
+                break;
+            case PrankItemType.Hammer:
+                //打落对面得分道具
+                player.SetScoreItemSO(null);
+                break;
+            case PrankItemType.Silme:
+                break;
+            case PrankItemType.Posion:
+                break;
+            case PrankItemType.Tornado:
+                //打落对面恶作剧道具
+                player.SetPrankItemSO(null);
+                break;
+        }
     }
 }

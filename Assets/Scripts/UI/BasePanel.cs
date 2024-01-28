@@ -7,16 +7,6 @@ using UnityEngine;
 /// </summary>
 public abstract class BasePanel<T> : MonoBehaviour where T : class
 {
-    private static T instance;
-
-    //公共属性，用于访问单例化实例
-    public static T Instance => instance;//
-
-    protected virtual void Awake()
-    {
-        instance = this as T;
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +19,6 @@ public abstract class BasePanel<T> : MonoBehaviour where T : class
 
     public virtual void ShowMe()
     {
-        Debug.Log("调用了");
         this.gameObject.SetActive(true);
     }
 

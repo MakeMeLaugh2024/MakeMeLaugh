@@ -15,6 +15,7 @@ public class SlipperyBuff : IBuff {
         if (player != null && player.IsGrounded()) {
             obj.IsSlippery = true;
         }
+        Debug.Log("´ò»¬");
     }
 
     public void Remove(IBuffUser obj) {

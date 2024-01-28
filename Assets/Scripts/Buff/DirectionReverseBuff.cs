@@ -12,6 +12,7 @@ public class DirectionReverseBuff : IBuff {
 
     public void Apply(IBuffUser obj) {
         obj.MoveDirectionFactor = -1f;
+        Debug.Log("方向反向");
     }
 
     public void Remove(IBuffUser obj) {

@@ -53,6 +53,33 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DropScore"",
+                    ""type"": ""Button"",
+                    ""id"": ""d51c0d36-b622-46c7-8a32-8c3f4e5b9175"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DropPrank"",
+                    ""type"": ""Button"",
+                    ""id"": ""9b9d246c-c75f-4135-95d9-e95984b8ddea"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UsePrank"",
+                    ""type"": ""Button"",
+                    ""id"": ""75f3d068-a2d6-4674-a2df-977ab02a68f5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -253,6 +280,72 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""BuffTest"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4842081b-9006-4f39-a3a0-1cf9b978c8d7"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""LeftKeyboard"",
+                    ""action"": ""DropScore"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4f535656-5bc5-4b7b-9a30-66b65ea506c6"",
+                    ""path"": ""<Keyboard>/numpad1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""RightKeyboard"",
+                    ""action"": ""DropScore"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e35ca398-4e58-4836-bfe8-9c19e50d97a1"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""LeftKeyboard"",
+                    ""action"": ""DropPrank"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bb531343-7d75-40d8-8975-a34a80551920"",
+                    ""path"": ""<Keyboard>/numpad2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""RightKeyboard"",
+                    ""action"": ""DropPrank"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""41ebc6a7-71cb-4969-9183-50f557100aae"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""LeftKeyboard"",
+                    ""action"": ""UsePrank"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""86c21f4b-5028-4ac9-8fd7-f0e8f4d88917"",
+                    ""path"": ""<Keyboard>/numpad3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""RightKeyboard"",
+                    ""action"": ""UsePrank"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -287,6 +380,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_BuffTest = m_Player.FindAction("BuffTest", throwIfNotFound: true);
+        m_Player_DropScore = m_Player.FindAction("DropScore", throwIfNotFound: true);
+        m_Player_DropPrank = m_Player.FindAction("DropPrank", throwIfNotFound: true);
+        m_Player_UsePrank = m_Player.FindAction("UsePrank", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -351,6 +447,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_BuffTest;
+    private readonly InputAction m_Player_DropScore;
+    private readonly InputAction m_Player_DropPrank;
+    private readonly InputAction m_Player_UsePrank;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -358,6 +457,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @BuffTest => m_Wrapper.m_Player_BuffTest;
+        public InputAction @DropScore => m_Wrapper.m_Player_DropScore;
+        public InputAction @DropPrank => m_Wrapper.m_Player_DropPrank;
+        public InputAction @UsePrank => m_Wrapper.m_Player_UsePrank;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -376,6 +478,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @BuffTest.started += instance.OnBuffTest;
             @BuffTest.performed += instance.OnBuffTest;
             @BuffTest.canceled += instance.OnBuffTest;
+            @DropScore.started += instance.OnDropScore;
+            @DropScore.performed += instance.OnDropScore;
+            @DropScore.canceled += instance.OnDropScore;
+            @DropPrank.started += instance.OnDropPrank;
+            @DropPrank.performed += instance.OnDropPrank;
+            @DropPrank.canceled += instance.OnDropPrank;
+            @UsePrank.started += instance.OnUsePrank;
+            @UsePrank.performed += instance.OnUsePrank;
+            @UsePrank.canceled += instance.OnUsePrank;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -389,6 +500,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @BuffTest.started -= instance.OnBuffTest;
             @BuffTest.performed -= instance.OnBuffTest;
             @BuffTest.canceled -= instance.OnBuffTest;
+            @DropScore.started -= instance.OnDropScore;
+            @DropScore.performed -= instance.OnDropScore;
+            @DropScore.canceled -= instance.OnDropScore;
+            @DropPrank.started -= instance.OnDropPrank;
+            @DropPrank.performed -= instance.OnDropPrank;
+            @DropPrank.canceled -= instance.OnDropPrank;
+            @UsePrank.started -= instance.OnUsePrank;
+            @UsePrank.performed -= instance.OnUsePrank;
+            @UsePrank.canceled -= instance.OnUsePrank;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -429,5 +549,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnBuffTest(InputAction.CallbackContext context);
+        void OnDropScore(InputAction.CallbackContext context);
+        void OnDropPrank(InputAction.CallbackContext context);
+        void OnUsePrank(InputAction.CallbackContext context);
     }
 }
